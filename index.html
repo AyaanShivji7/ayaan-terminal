@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ayaan Terminal – Simple Build</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #050816;
+      color: white;
+    }
+
+    header {
+      background: #0b1020;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #202437;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 0.08em;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      cursor: pointer;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #00e0b8, #16a5ff);
+      color: #000;
+      font-weight: bold;
+      font-size: 14px;
+      box-shadow: 0 10px 20px rgba(0, 224, 184, 0.3);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 14px 28px rgba(0, 224, 184, 0.45);
+      opacity: 0.95;
+    }
+
+    .btn:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 0 6px 16px rgba(0, 224, 184, 0.25);
+      opacity: 0.9;
+    }
+
+    .page {
+      display: none;
+      padding: 24px 20px 32px;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .active {
+      display: block;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    /* Dashboard layout */
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1.1fr 1.1fr 1.2fr;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: #0b1020;
+      border: 1px solid #1f2337;
+      padding: 15px;
+      border-radius: 14px;
+      min-height: 380px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .panel:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+      border-color: #3b82f6;
+    }
+
+    .panel h2 {
+      margin-top: 0;
+      font-size: 18px;
+      border-bottom: 1px solid #202437;
+      padding-bottom: 8px;
+      margin-bottom: 15px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 7px;
+      border-radius: 8px;
+      border: 1px solid #33384f;
+      background: #050816;
+      color: #fff;
+      margin-bottom: 10px;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    input[type="text"]:focus {
+      border-color: #00e0b8;
+      box-shadow: 0 0 0 1px rgba(0, 224, 184, 0.4);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: #e5e7eb;
+      font-size: 14px;
+      margin-top: 6px;
+    }
+
+    th, td {
+      padding: 6px 4px;
+      border-bottom: 1px solid #1c2033;
+      text-align: left;
+    }
+
+    th {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #9ca3af;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .change-pos {
+      color: #4ade80;
+    }
+
+    .change-neg {
+      color: #f97373;
+    }
+
+    .change-flat {
+      color: #9ca3af;
+    }
+
+    /* Daily 10 */
+    #daily10 p {
+      margin: 6px 0;
+      font-size: 14px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: #050816;
+      border: 1px solid transparent;
+      transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+      cursor: default;
+    }
+
+    #daily10 p:hover {
+      border-color: #3b82f6;
+      background: #020617;
+      transform: translateY(-1px);
+    }
+
+    /* Chat */
+    .chat-box {
+      height: 280px;
+      overflow-y: auto;
+      border: 1px solid #1c2033;
+      padding: 10px;
+      border-radius: 10px;
+      background: #050816;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .chat-msg-user {
+      color: #22c55e;
+      margin-bottom: 6px;
+    }
+
+    .chat-msg-bot {
+      color: #60a5fa;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">AYAAN TERMINAL</div>
+  <button class="btn" onclick="showPage('login')">Login</button>
+</header>
+
+<!-- LOGIN PAGE -->
+<div id="login" class="page active">
+  <h1>Login to Ayaan Terminal</h1>
+  <p>This is a simple demo login (no Google yet). Type any email to continue.</p>
+
+  <input id="loginEmail" type="text" placeholder="Enter any email to continue">
+  <br>
+  <button class="btn" onclick="login()">Continue</button>
+</div>
+
+<!-- TERMINAL PAGE -->
+<div id="terminal" class="page">
+  <h1>Welcome to Ayaan Terminal</h1>
+  <p style="color:#9ca3af; font-size:14px;">
+    Left: your watchlist with live quotes (via your API key). Middle: AI Daily 10.
+    Right: placeholder quant chatbot.
+  </p>
+
+  <div class="dashboard">
+    <!-- WATCHLIST -->
+    <div class="panel">
+      <h2>Your Watchlist</h2>
+
+      <input id="watchInput" type="text" placeholder="Add symbol e.g. NVDA" />
+      <button class="btn" onclick="addStock()">Add</button>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th>Last Price</th>
+            <th>Prev Close</th>
+            <th>Change</th>
+          </tr>
+        </thead>
+        <tbody id="watchlistTable"></tbody>
+      </table>
+    </div>
+
+    <!-- AI DAILY 10 -->
+    <div class="panel">
+      <h2>AI Daily 10 Picks</h2>
+      <div id="daily10"></div>
+    </div>
+
+    <!-- CHAT -->
+    <div class="panel">
+      <h2>Quant Chatbot</h2>
+
+      <div id="chatBox" class="chat-box"></div>
+
+      <input id="chatInput" type="text" placeholder="Ask something...">
+      <button class="btn" onclick="sendChat()">Send</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* -------------------------
+   SIMPLE PAGE NAVIGATION
+--------------------------*/
+function showPage(page) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(page).classList.add("active");
+}
+
+/* -------------------------
+       LOGIN SYSTEM
+--------------------------*/
+function login() {
+  const email = document.getElementById("loginEmail").value.trim();
+  if (!email) {
+    alert("Enter an email.");
+    return;
+  }
+  localStorage.setItem("ayaanUser", email);
+  showPage("terminal");
+}
+
+/* -------------------------
+     STOCK WATCHLIST API
+--------------------------*/
+
+// Your API Key (Finnhub-style)
+const API_KEY = "d4ib5b9r01qkv40houkgd4ib5b9r01qkv40houl0";
+
+function addStock() {
+  const sym = document.getElementById("watchInput").value.toUpperCase().trim();
+  if (!sym) return;
+
+  fetch(`https://finnhub.io/api/v1/quote?symbol=${sym}&token=${API_KEY}`)
+    .then(r => {
+      if (!r.ok) throw new Error("API error");
+      return r.json();
+    })
+    .then(data => {
+      const last = data.c;
+      const prev = data.pc;
+      const diff = last - prev;
+      const changeClass =
+        diff > 0 ? "change-pos" :
+        diff < 0 ? "change-neg" :
+        "change-flat";
+
+      const table = document.getElementById("watchlistTable");
+      const row = `
+        <tr>
+          <td>${sym}</td>
+          <td>${last.toFixed(2)}</td>
+          <td>${prev.toFixed(2)}</td>
+          <td class="${changeClass}">
+            ${diff >= 0 ? "+" : ""}${diff.toFixed(2)}
+          </td>
+        </tr>
+      `;
+      table.insertAdjacentHTML("beforeend", row);
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Could not fetch quote for that symbol.");
+    });
+
+  document.getElementById("watchInput").value = "";
+}
+
+/* -------------------------
+       AI DAILY 10
+--------------------------*/
+const ideas = [
+  "NVDA – AI infrastructure demand",
+  "AAPL – services & ecosystem strength",
+  "MSFT – Azure + AI integration",
+  "AMZN – AWS + retail margin expansion",
+  "GOOGL – AI in search & cloud",
+  "TSLA – autonomy + EV future",
+  "META – ad optimization with AI",
+  "NFLX – streaming scale & ads",
+  "BRK.B – diversified compounder",
+  "SHOP – e-commerce enablement"
+];
+
+const d10 = document.getElementById("daily10");
+ideas.forEach(i => {
+  d10.innerHTML += `<p>• ${i}</p>`;
+});
+
+/* -------------------------
+       CHATBOT MOCK
+--------------------------*/
+function sendChat() {
+  const input = document.getElementById("chatInput");
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  const chat = document.getElementById("chatBox");
+
+  chat.innerHTML += `<div class="chat-msg-user"><strong>You:</strong> ${msg}</div>`;
+
+  setTimeout(() => {
+    chat.innerHTML += `
+      <div class="chat-msg-bot">
+        <strong>Bot:</strong> This is a placeholder quant-style response. 
+        In the real version this will be powered by AI and your data.
+      </div>`;
+    chat.scrollTop = chat.scrollHeight;
+  }, 300);
+
+  input.value = "";
+  chat.scrollTop = chat.scrollHeight;
+}
+</script>
+
+</body>
+</html>
